@@ -1,3 +1,6 @@
+Question 2 Tp 07 : 
+
+
 def matchs_de(equipe, nomFichier) :
     
     matchs = []
