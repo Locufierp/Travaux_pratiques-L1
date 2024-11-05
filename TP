@@ -46,3 +46,22 @@ eq = input("equipe = ? " )
 #for equipe in equipes :
 nbp = nb_points_apres_n_journees(eq,n,"ligue1.csv")
 print("{0} a obtenu {1} points après les {2} premières journées.".format(eq, nb_points_apres_n_journees(eq, n, "ligue1.csv"), n))
+
+
+
+
+
+
+def nb_max_points_apres_n_journees(n, nomFichier) :
+    equipes = liste_equipes(nomFichier)
+    points_des_equipes_apres_n_journees = []
+    for equipe in equipes :
+        points_equipe = nb_points_apres_n_journees(equipe, n , nomFichier)
+        points_des_equipes_apres_n_journees.append(points_equipe)
+    return max(points_des_equipes_apres_n_journees)
+    
+    
+    return max(points_des_equipes_apres_n_journees)
+# test
+for i in range(1, 39) :
+    print("journée {0} : max_points = {1}".format(i, nb_max_points_apres_n_journees(i, "ligue1.csv"))) 
