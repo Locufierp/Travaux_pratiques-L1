@@ -50,7 +50,7 @@ print("{0} a obtenu {1} points après les {2} premières journées.".format(eq, 
 
 
 
-
+Question 4 TP 7
 
 def nb_max_points_apres_n_journees(n, nomFichier) :
     equipes = liste_equipes(nomFichier)
