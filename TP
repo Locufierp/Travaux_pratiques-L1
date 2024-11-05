@@ -65,3 +65,19 @@ def nb_max_points_apres_n_journees(n, nomFichier) :
 # test
 for i in range(1, 39) :
     print("journée {0} : max_points = {1}".format(i, nb_max_points_apres_n_journees(i, "ligue1.csv"))) 
+
+Question 5 TP 7 
+
+def coleaders_apres_n_journees(n, nomFichier) :
+    colead = []
+    max_points = nb_max_points_apres_n_journees(n, nomFichier)
+    equipes = liste_equipes(nomFichier)
+    for equipe in equipes :
+        nb_points_equipe = nb_points_apres_n_journees(equipe, n, nomFichier)
+        if nb_points_equipe == max_points :
+            colead.append(equipe)
+    return colead
+
+# test 
+for i in range(1, 39) :
+    print("après {0} journées, leaders = {1}".format(i, coleaders_apres_n_journees(i, "ligue1.csv")))
