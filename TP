@@ -1,1 +1,16 @@
-
+def matchs_de(equipe, nomFichier) :
+    
+    matchs = []
+    with open("ligue1.csv","r") as f:
+        lignes = f.readlines()
+        for ligne in lignes[1:]:
+            ligne_splitee = ligne.split(",")            
+            if equipe == ligne_splitee[1] or equipe == ligne_splitee[2]:
+                match = ligne_splitee[0:6]
+                matchs.append(match)
+    return matchs
+                
+  
+# test
+for match in matchs_de("Bastia", "ligue1.csv") :
+    print(match)
