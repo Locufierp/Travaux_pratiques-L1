@@ -17,3 +17,32 @@ def matchs_de(equipe, nomFichier) :
 # test
 for match in matchs_de("Bastia", "ligue1.csv") :
     print(match)
+
+
+
+def nb_points_apres_n_journees(equipe, nb_journees, nomFichier) :
+    matchs = matchs_de(equipe , nomFichier)[0: nb_journees]
+    nb_points =0 
+    for match in matchs :
+        match_a_domicile = (equipe == match[1])
+        if match_a_domicile :
+            buts_pour = match[3]
+            buts_contre = match[4]
+        else :
+            buts_pour = match[4]
+            buts_contre = match[3]
+        if buts_pour > buts_contre : 
+            nb_points +=3
+        elif buts_pour == buts_contre :
+            nb_points += 1
+    return nb_points
+# test 
+# pour n = 38 Auxerre a 72 points, Paris SG 68, etc
+# voir https://fr.wikipedia.org/wiki/Championnat_de_France_de_football_1995-1996#R%C3%A9sultats
+
+n = int(input("nombre de journées pour le calcul ? "))
+eq = input("equipe = ? " )
+#print(nb_points_apres_n_journees(eq, n , "ligue1.csv"))
+#for equipe in equipes :
+nbp = nb_points_apres_n_journees(eq,n,"ligue1.csv")
+print("{0} a obtenu {1} points après les {2} premières journées.".format(eq, nb_points_apres_n_journees(eq, n, "ligue1.csv"), n))
