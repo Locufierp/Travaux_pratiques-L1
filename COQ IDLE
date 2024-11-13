@@ -38,3 +38,18 @@ Proof.
 Qed.
 
 Theorem ex05 : (A/\~A) -> B 
+
+
+
+Exercice 1 : 
+
+1) Section Exercice1.
+Variable A B : Prop. 
+Theorem ex01 :  (A/\B) -> (B/\A).
+intro H1.
+case H1.
+intro H.
+intro H2.
+split.
+assumption.
+assumption.
