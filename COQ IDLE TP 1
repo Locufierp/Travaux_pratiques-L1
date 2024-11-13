@@ -70,9 +70,26 @@ Qed.
 
 Theorem ex1c : ((A/\B)/\ C) -> (A/\(B/\ C)).
 Proof.
-  intro H1.
-  case H1.
-  - intro H2.
-    intro H3.
-    split.
+  intro H.
+  destruct H as (Ha,Hb).
+  destruct Ha as (Hc , Hd).
+  split.
+  assumption.
+  split.
+  assumption.
+  assumption.
+Qed.
 
+Theorem ex1d : (A\/(B\/ C)) -> ((A\/B)\/ C).
+Proof.
+  intro H.
+  case H.
+- intro H2.
+  left.
+  left.
+  assumption.
+- 
+
+ 
+
+Qed.
