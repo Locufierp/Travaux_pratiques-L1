@@ -1,0 +1,40 @@
+Variable A  B C : Prop.
+Theorem ex01 : A -> A.
+Proof.
+  intro H.
+  assumption.
+Qed.
+
+Theorem ex02 : A -> B -> A.
+Proof.
+  intro H1.
+  intro H2.
+  assumption.
+Qed.
+
+Theorem ex03 : (A/\B)-> B.
+Proof.
+  intro H1.
+  destruct H1.
+  assumption.
+Qed.
+
+Theorem ex04 : (A\/B)-> C -> (A/\C)\/(B/\C).
+Proof.
+  intro H1.
+  case H1.
+  - intro H.
+    intro H2.
+    left.
+    split.
+    assumption.
+    assumption.
+  - intro H.
+    intro H2. 
+    right.
+    split.
+    assumption.
+    assumption. 
+Qed.
+
+Theorem ex05 : (A/\~A) -> B 
