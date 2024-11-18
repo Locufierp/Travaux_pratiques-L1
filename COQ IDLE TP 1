@@ -93,3 +93,49 @@ Proof.
  
 
 Qed.
+
+-----------------------------EXERCICE 2 LOI DE MORGAN------------------------------- 
+
+---------------EX 2a :
+
+Variable A B C : Prop .
+Theorem ex2a : (~A\/~B) -> ~(A/\B).
+Proof.
+  intro H.
+  case H.
+- intro.
+  intro.
+  apply H0.
+  contradiction H0.
+case H1.
+intro.
+intro.
+assumption.
+- intro.
+destruct H.
+intro.
+apply H.
+contradiction H.
+-- case H1.
+intro.
+intro.
+assumption.
+--
+intro.
+apply H0.
+case H1.
+intro.
+intro.
+assumption.
+Qed.
+
+------- EX2a Mieux :
+
+Theorem ex2amieux : (~A\/~B) -> ~(A/\B).
+Proof.
+Qed.
+
+-------- Ex 2b :
+
+Theorem ex2b : (~A/\~B) -> ~(A\/B).
+Proof.
