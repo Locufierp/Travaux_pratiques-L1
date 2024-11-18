@@ -197,7 +197,8 @@ intro.
 intro.
 destruct H2.
 apply H0.
-* assumption.
-* apply H1.
 assumption.
+apply H1.
+assumption.
+
 ----------------------------- EXERCICE 3 Contraposée ---------------------------------------------
