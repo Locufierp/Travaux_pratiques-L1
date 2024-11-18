@@ -104,19 +104,28 @@ Qed.
 
 ------------ EX 1d : Disjonction du OU :
 
-Theorem ex1d : (A\/(B\/ C)) -> ((A\/B)\/ C).
+
+Section Exercice1.
+Variable A B C : Prop.
+Theorem o : ((A\/B)\/ C) -> (A\/(B\/ C)).
 Proof.
-  intro H.
-  case H.
-- intro H2.
-  left.
-  left.
-  assumption.
-- 
-
- 
-
+    intro H.
+    case H.
+  - intro H1.
+    case H1.
+    intro.
+    left.
+    assumption.
+    intro.
+    right.
+    left.
+    assumption.
+  -  intro.
+    right.
+    right.
+    assumption.
 Qed.
+End Exercice1.
 
 -----------------------------EXERCICE 2 LOI DE MORGAN------------------------------- 
 
