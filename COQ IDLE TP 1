@@ -202,3 +202,15 @@ apply H1.
 assumption.
 
 ----------------------------- EXERCICE 3 Contraposée ---------------------------------------------
+------- EX 3 :
+Theorem ex3 : (A->B) -> (~B->~A).
+Proof.
+intro H.
+intro H1.
+intro H2.
+apply H1.
+apply H.
+assumption.
+Qed.
+
+----------------------------- Ex 4 : Distributivité ---------------------------------------------
