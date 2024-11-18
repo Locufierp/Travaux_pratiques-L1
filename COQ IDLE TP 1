@@ -1,10 +1,18 @@
 
+--------------------------------TP1 COQ ----------------------------------------
+
+
 Variable A  B C : Prop.
+
+------------------ Ex 01:
+
 Theorem ex01 : A -> A.
 Proof.
   intro H.
   assumption.
 Qed.
+
+------------------ Ex 02:
 
 Theorem ex02 : A -> B -> A.
 Proof.
@@ -13,12 +21,16 @@ Proof.
   assumption.
 Qed.
 
+------------------ Ex 03:
+
 Theorem ex03 : (A/\B)-> B.
 Proof.
   intro H1.
   destruct H1.
   assumption.
 Qed.
+
+------------------ Ex 04:
 
 Theorem ex04 : (A\/B)-> C -> (A/\C)\/(B/\C).
 Proof.
@@ -38,12 +50,16 @@ Proof.
     assumption. 
 Qed.
 
+------------------ Ex 05:
+
 Theorem ex05 : (A/\~A) -> B.
 Proof.
   intro H1.
   destruct H1 as (Ha , Hb).
   contradiction.
 Qed.
+
+------------------ Ex 1a:
 
 Theorem ex1a : (A/\B) -> (B/\A).
 Proof.
@@ -55,6 +71,8 @@ Proof.
   assumption.
   assumption.
 Qed.
+
+------------------ Ex 1b:
 
 Theorem ex1b : (A\/B) -> (B\/A).
 Proof.
@@ -68,6 +86,8 @@ Proof.
     assumption.
 Qed.
 
+------------------ Ex 1c:
+
 Theorem ex1c : ((A/\B)/\ C) -> (A/\(B/\ C)).
 Proof.
   intro H.
@@ -79,6 +99,8 @@ Proof.
   assumption.
   assumption.
 Qed.
+
+------------ EX 1d : Disjonction du OU :
 
 Theorem ex1d : (A\/(B\/ C)) -> ((A\/B)\/ C).
 Proof.
