@@ -132,8 +132,26 @@ Qed.
 ------- EX2a Mieux :
 
 Theorem ex2amieux : (~A\/~B) -> ~(A/\B).
+
+Section Exercice2.
+Variable A B : Prop.
+Theorem M : (~A\/~B) -> ~(A/\B).
 Proof.
+intro.
+case H.
+-intro M.
+intro.
+destruct H0 as (H1,H2).
+apply M.
+contradiction.
+-
+intro H2.
+intro H3.
+apply H2.
+destruct H3.
+contradiction H2.
 Qed.
+End Exercice2.
 
 -------- Ex 2b :
 
