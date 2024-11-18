@@ -190,3 +190,14 @@ End Exercice2.
 
 Theorem ex2b : (~A/\~B) -> ~(A\/B).
 Proof.
+intro.
+case H.
+-intro H0.
+intro.
+intro.
+destruct H2.
+apply H0.
+* assumption.
+* apply H1.
+assumption.
+----------------------------- EXERCICE 3 Contraposée ---------------------------------------------
