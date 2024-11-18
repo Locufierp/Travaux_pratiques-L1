@@ -185,6 +185,16 @@ destruct H3.
 contradiction H2.
 Qed.
 End Exercice2.
+------------------------------------
+
+Theorem ex2aencoremieux : (~A\/~B) -> ~(A/\B).
+Proof.
+intro  H.
+intro Hb.
+destruct Hb as (Ha,Hb).
+case H.
+- contradiction.
+-contradiction.
 
 -------- Ex 2b :
 
