@@ -1,0 +1,32 @@
+Theorem exC : ((A/\B ) \/ (B/\C))->(( B -> A ) -> A ).
+Proof.
+  intro H.
+  intro H1.
+  case H.
+  -intro H2.
+  destruct H2 as (Ha , Hb ).
+  assumption.
+  -intro H3.
+  apply H1.
+  destruct H3 as (Ha , Hb ).
+  assumption.
+Qed.
+
+Theorem exCONT : ( A /\ B ) -> (~A -> B).
+Proof.
+  intro H.
+  intro H5.
+  destruct H as ( Ha , Hb ).
+  assumption.
+Qed.
+
+Theorem exCONTerminale : ( ~C \/ ( A /\ B )) -> ( B -> ~C ).
+Proof.
+  intro H.
+  intro H1.
+  case H.
+  -  intro H2.
+  assumption.
+  - intro H4.
+  intro H5.
+  
