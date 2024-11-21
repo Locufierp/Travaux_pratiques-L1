@@ -1,0 +1,234 @@
+Variable A  B C : Prop.
+
+Theorem ex01 : A -> A.
+Proof.
+  intro H.
+  assumption.
+Qed.
+
+
+
+Theorem ex02 : A -> B -> A.
+Proof.
+  intro H1.
+  intro H2.
+  assumption.
+Qed.
+
+
+Theorem ex03 : (A/\B)-> B.
+Proof.
+  intro H1.
+  destruct H1.
+  assumption.
+Qed.
+
+Theorem ex04 : (A\/B)-> C -> (A/\C)\/(B/\C).
+Proof.
+  intro H1.
+  case H1.
+  - intro H.
+    intro H2.
+    left.
+    split.
+    assumption.
+    assumption.
+  - intro H.
+    intro H2.
+    right.
+    split.
+    assumption.
+    assumption.
+Qed.
+
+Theorem ex05 : (A/\~A) -> B.
+Proof.
+  intro H1.
+  destruct H1 as (Ha , Hb).
+  contradiction.
+Qed.
+
+Theorem ex1a : (A/\B) -> (B/\A).
+Proof.
+  intro H.
+  case H.
+  intro H1.
+  intro H2.
+  split.
+  assumption.
+  assumption.
+Qed.
+
+
+
+Theorem ex1b : (A\/B) -> (B\/A).
+Proof.
+  intro H.
+  case H.
+  - intro H1.
+    right.
+    assumption.
+  - intro H2.
+    left.
+    assumption.
+Qed.
+
+
+Theorem ex1c : ((A/\B)/\ C) -> (A/\(B/\ C)).
+Proof.
+  intro H.
+  destruct H as (Ha,Hb).
+  destruct Ha as (Hc , Hd).
+  split.
+  assumption.
+  split.
+  assumption.
+  assumption.
+Qed.
+
+
+
+Section Exercice1.
+Variable A B C : Prop.
+Theorem o : ((A\/B)\/ C) -> (A\/(B\/ C)).
+Proof.
+    intro H.
+    case H.
+  - intro H1.
+    case H1.
+    intro.
+    left.
+    assumption.
+    intro.
+    right.
+    left.
+    assumption.
+  -  intro.
+    right.
+    right.
+    assumption.
+Qed.
+End Exercice1.
+
+
+
+Theorem ex2a : (~A\/~B) -> ~(A/\B).
+Proof.
+  intro H.
+  case H.
+- intro.
+  intro.
+  apply H0.
+  contradiction H0.
+case H1.
+intro.
+intro.
+assumption.
+- intro.
+destruct H.
+intro.
+apply H.
+contradiction H.
+-- case H1.
+intro.
+intro.
+assumption.
+--
+intro.
+apply H0.
+case H1.
+intro.
+intro.
+assumption.
+Qed.
+
+
+
+Theorem ex2amieux : (~A\/~B) -> ~(A/\B).
+Proof.
+intro.
+case H.
+-intro M.
+intro.
+destruct H0 as (H1,H2).
+apply M.
+contradiction.
+-
+intro H2.
+intro H3.
+apply H2.
+destruct H3.
+contradiction H2.
+Qed.
+
+
+Theorem ex2aencoremieux : (~A\/~B) -> ~(A/\B).
+Proof.
+intro  H.
+intro Hb.
+destruct Hb as (Ha,Hb).
+case H.
+- contradiction.
+-contradiction.
+Qed.
+
+Theorem ex2b : (~A/\~B) -> ~(A\/B).
+Proof.
+intro.
+case H.
+-intro H0.
+intro.
+intro.
+destruct H2.
+apply H0.
+assumption.
+apply H1.
+assumption.
+Qed.
+
+Theorem ex3 : (A->B) -> (~B->~A).
+Proof.
+intro H.
+intro H1.
+intro H2.
+apply H1.
+apply H.
+assumption.
+Qed.
+
+Theorem exC : ((A/\B ) \/ (B/\C))->(( B -> A ) -> A ).
+Proof.
+  intro H.
+  intro H1.
+  case H.
+  -intro H2.
+  destruct H2 as (Ha , Hb ).
+  assumption.
+  -intro H3.
+  apply H1.
+  destruct H3 as (Ha , Hb ).
+  assumption.
+Qed.
+
+Theorem exCONT : ( A /\ B ) -> (~A -> B).
+Proof.
+  intro H.
+  intro H5.
+  destruct H as ( Ha , Hb ).
+  assumption.
+Qed.
+
+Theorem exCONTerminale : ( ~C \/ ( A /\ B )) -> ( B -> ~C ).
+Proof.
+  intro H.
+  intro H1.
+  case H.
+  -  intro H2.
+  assumption.
+  - intro H4.
+  intro H5.
+  
+
+
+
+
