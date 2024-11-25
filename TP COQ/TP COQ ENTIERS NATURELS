@@ -1,0 +1,405 @@
+Set Keyed Unification. (* rewrite plus prévisible *)
+
+Section Naturels.
+(* En Coq, comme dans beaucoup de langages de programmation, les
+  expressions qui sont manipulées ont un TYPE. Pour l’instant, on n’a manipulé que
+  des formules, qui sont en fait des expressions de type Prop.
+*)
+  Variable A : Prop.
+(*
+  Avec la commande Check, on peut connaître le type d’une expression. Il faut prêter attention 
+  à l’encadré en bas à droite qui contient les messages.
+*)
+  Check A.  
+
+(*
+  Dans ce document, on s’intéresse à d’autres valeurs, qui sont
+  les entiers naturels.
+
+  En Coq, les types ont toujours une définition (et d’ailleurs on peut créer ses propres types).
+
+
+Le type nat est un type inductif : il est fait de constantes et de
+constructeurs, qui peuvent être récursifs, c'est à dire faire
+référence au type lui-même. Regardez bien les messages après les "Check" suivants.*)
+
+
+Print nat.
+Check O.
+Check S.
+
+
+Check O.
+Check S (S O).
+Check S (S (S (S (S O)))).
+Check 0. (* notation 0 pour zéro (O) *)
+
+(*
+La tactique "unfold" permet de 'déplier' une définition (par exemple, 
+    quand la notation est un raccourci,
+    ça permet de voir ce qu’il y a derrière).
+*)
+
+Theorem deux_non_egal_a_trois : ~ (S (S 0) = S (S (S 0))).
+Proof.
+  (* 
+     En guise d'exemple, on prouve que 2 n'est pas égal à 3 dans nat.
+     Remarquer que Coq a écrit <> dans le but, en effet « différent de » est
+     la même chose en Coq que _non égal_. *)
+  unfold not.
+  intro.
+  discriminate.
+  (* Supposons (hypothèse (H)) que 2 = 3. *)
+  (* Comme 2 = S (S 0) et 3 = S (S (S 0)), ils s'écrivent différemment donc
+     H fournit une preuve de False. *)
+Qed.
+
+
+Theorem neq_0_succ : forall n : nat, ~ (0 = S n).
+Proof.
+  Check 0.
+  unfold not.
+  intro.
+  intro.
+  discriminate.
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem exo_discriminate2 : forall n : nat, (S (S 0)) = (S 0) -> n = S n.
+Proof.
+  intro.
+  intro.
+  discriminate H.
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+(*
+En Coq, on peut définir des fonctions récursives (comme en programmation) avec
+Le mot clef 'Fixpoint'.
+
+La fonction suivante correspond à l’addition
+*)
+
+Fixpoint add (n m : nat) : nat :=
+  match n with (* "faire correspondre n avec" *)
+    0 => m (* Si n = 0, alors n + m = m. *)
+  | S p => S (add p m) (* (S p) + m = S (p + m). *)
+  end.
+(*
+Compute permet de calculer le résulat de la fonction 
+quand elle est appliquée à un argument.
+*)
+
+Compute (add 2 2).
+Compute (add 12 30).
+
+
+Compute 2 + 5.
+
+
+(* La tactique 'simpl' permet de simplifier des expressions, comme ci-dessous,
+et la tactique 'reflexivity' est une sorte d’axiome pour les entiers naturels :
+elle termine une preuve si le but est de la forme x=x
+*)
+Theorem deux_et_deux_font_quatre : 2 + 2 = 4.
+Proof.
+  simpl. (* 2 + 2 = S (1 + 2) = S (S (0 + 2)) = S (S 2) = 4. *)
+  reflexivity.
+Qed.
+
+
+Theorem add_0_l : forall n : nat, 0 + n = n.
+Proof.
+  intro .
+  simpl.
+  reflexivity.
+
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem add_1_l : forall  n : nat, 1 + n = S n.
+Proof.
+  intro.
+  simpl.
+  reflexivity.
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem add_succ_l : forall n m : nat, S n + m = S (n + m).
+Proof.
+  intro.
+  intro.
+  simpl.
+  reflexivity.
+
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+(* N'oubliez pas discriminate pour réfuter une égalité. *)
+Theorem deux_et_deux_ne_font_pas_cinq : ~ (2 + 2 = 5).
+Proof.
+  unfold not.
+  intro.
+  discriminate.
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+(*La tactique 'rewrite' permet de faire une substitution :
+  si on a une hypothèse H : e1 = e2, et que l’on a un but 
+  où e1 apparaît, alors "rewrite H" remplacera e1 par e2 dans le but :
+*)
+
+Theorem exemple_rewrite_hyp : forall n : nat, n = 42 -> n + 2 = 44.
+Proof. 
+  intros n H.
+  rewrite H.
+  simpl.
+  reflexivity.
+Qed.
+
+
+Theorem la_tete_a_toto : forall n : nat, n = 0 -> n + n = n.
+Proof.
+  intro.
+  intro.
+  rewrite H.
+  simpl.
+  reflexivity.
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+(*'rewrite' peut aussi être utilisée avec des théorèmes !*)
+
+(* On va utiliser les théorèmes suivants : *)
+
+Check add_1_l.
+Check add_0_l.
+Theorem exemple_rewrite_thm : forall n : nat, 0 + (1 + (1 + n)) = S (S n).
+Proof.
+  intros n.
+  Check (add_1_l (1 + n)).
+  rewrite (add_1_l (1 + n)).
+  Check (add_1_l n).
+  rewrite (add_1_l n).
+  Check (add_0_l (S (S n))).
+  rewrite (add_0_l (S (S n))).
+  reflexivity.
+Qed.
+
+(* essayez de prouver ce théorème en utilisant 'rewrite' jusqu’à 
+parvenir au but '2+2=4' *)
+Theorem exo_rewrite_theorems : (1 + 1) + ((0 + (0 + 1)) + 1) = 4.
+Proof.
+  intros .
+  Check add_1_l (0  1).
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem exemple_rewrite_thm_unif : forall n : nat, 0 + (1 + (1 + n)) = S (S n).
+Proof.
+  intros n.
+  rewrite add_1_l.
+  rewrite add_1_l.
+  rewrite add_0_l.
+  reflexivity.
+Qed.
+
+
+Theorem exo_rewrite_unif :
+  forall n : nat, 0 + ((S 1) + S (1 + n))= S (S (S (S n))).
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem double_eq_0_is_0 : forall n : nat, n + n = 0 -> n = 0.
+Proof.
+  (* Soit n un entier naturel. *)
+  intros n.
+  (* On suppose (hyp. (H)) que n + n = 0. *)
+  intros H.
+  (* Preuve par cas : n est soit nul soit successeur d'un entier n'. *)
+  destruct n as [| n'].
+  - (* Premier cas : n = 0. *)
+    reflexivity.
+  - (* Deuxième cas : n = S n' pour un certain n' : nat. *)
+    (* Nous allons montrer que ce cas est impossible. *)
+    exfalso.
+    (* En réécrivant avec add_succ_l, l'hypothèse H devient 
+       S (n' + S n') = 0. *)
+    rewrite add_succ_l in H.
+    (* Noter la nouvelle syntaxe rewrite règle in nom_hypothese. *)
+    (* Or, il est impossible que le successeur d'un naturel soit nul, par
+       définition des entiers naturels. *)
+    discriminate H.
+Qed.
+
+
+Theorem npm_eq_0 : forall (n m : nat), n + m = 0 -> n = 0.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem exo_destruct2 : forall n : nat, S (S (S n)) = 4 -> n = 1.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem add_0_r : forall n : nat, n + 0 = n.
+Proof.
+  intros n.
+  simpl. (* Aïe, simpl ne marche pas *)
+  (* On peut essayer une preuve par cas : *)
+  destruct n as [| n'].
+  - (* le cas n = 0 se passe bien *)
+    simpl. reflexivity.
+  - (* mais là on va être bloqué... *)
+    simpl.
+    (* Il nous faudrait une preuve que n' + 0 = 0...
+       On est bloqué. *)
+Abort. (* La commande Abort abandonne une preuve. *)
+
+
+Theorem add_0_r : forall (n : nat), n + 0 = n.
+Proof.
+  induction n as [|n' IH].
+  - (* On suppose que n = 0. *)
+    (* Par définition de +, 0 + 0 vaut 0. *)
+    rewrite add_0_l.
+    (* Les deux membres de l'égalité sont les mêmes, ce cas est terminé. *)
+    reflexivity.
+  - (* On suppose que n = S n' et que n' vérifie
+       (IH) : n' + 0 = n'. *)
+    (* Par définition de +, S n' + 0 = S (n' + 0). *)
+    rewrite add_succ_l.
+    (* On remplace, grâce à (IH), le terme (n' + 0) par n'. *)
+    rewrite IH.
+    (* Les deux membres de l'égalité sont les mêmes, c'est terminé. *)
+    reflexivity.
+Qed.
+
+
+Theorem add_1_r : forall n : nat, n + 1 = S n.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem add_succ_r : forall n m, n + S m = S (n + m).
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+(* Indice : utiliser les théorèmes précédents avec la tactique
+   rewrite. Par exemple, si le but contient une expression du type
+   truc + S bidule, alors rewrite add_succ_r remplace cette expression
+   par S (truc + bidule). *)
+
+
+Theorem add_comm : forall (n m : nat), n + m = m + n.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem add_assoc : forall (n m p : nat), n + (m + p) = (n + m) + p.
+Proof.
+  (* Remarquez que Coq affiche naturellement + comme étant
+     associatif à gauche *)
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem add_succ_comm : forall n m, n + S m = S n + m.
+Proof.
+  induction n as [| n' IH].
+  - intros m. rewrite add_0_l, add_1_l. reflexivity.
+  - intros m. rewrite (add_succ_l (S n')), add_succ_l.
+    rewrite (IH m). reflexivity.
+Qed.
+
+
+Fixpoint mul (n m : nat) :=
+  match n with
+  | 0 => 0
+  | S p => m + mul p m
+  end.
+
+
+Compute (mul 2 3).
+Compute (2 * 3).
+
+
+Theorem secret_of_the_universe : 6 * 7 = 42.
+Proof.
+  simpl.
+  reflexivity.
+Qed.
+
+
+Theorem mul_0_l : forall n : nat, 0 * n = 0.
+Proof.
+  intros n.
+  simpl.
+  reflexivity.
+Qed.
+
+
+Theorem mul_succ_l : forall n m : nat, (S n) * m = n * m + m.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem mul_1_l : forall n : nat, 1 * n = n.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem mul_0_r : forall n : nat, n * 0 = 0.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem mul_1_r : forall n : nat, n * 1 = n.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem mul_eq_0_rl : forall n m : nat,  (n = 0 \/ m = 0) -> n * m = 0.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem exple_rewrite_rl : forall n, 6 = n -> n * (S n) = 42.
+Proof.
+  intros n H.
+  rewrite <- H.
+  simpl.
+  reflexivity.
+Qed.
+
+
+Theorem exercise_rewrite_rl : forall n, 15 = 10 + n -> 27 + n + 10 = 42.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem mul_succ_r : forall n m : nat, n * S m = n * m + n.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
+
+Theorem mul_comm : forall n m : nat, n * m = m * n.
+Proof.
+  (* Remplir la preuve ici *)
+Admitted. (* Remplacer cette ligne par Qed. *)
+
