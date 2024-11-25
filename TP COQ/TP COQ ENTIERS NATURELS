@@ -62,7 +62,7 @@ Proof.
   intro.
   intro.
   discriminate.
-Admitted. (* Remplacer cette ligne par Qed. *)
+Qed.
 
 
 Theorem exo_discriminate2 : forall n : nat, (S (S 0)) = (S 0) -> n = S n.
@@ -70,7 +70,7 @@ Proof.
   intro.
   intro.
   discriminate H.
-Admitted. (* Remplacer cette ligne par Qed. *)
+Qed.
 
 (*
 En Coq, on peut définir des fonctions récursives (comme en programmation) avec
@@ -113,7 +113,7 @@ Proof.
   simpl.
   reflexivity.
 
-Admitted. (* Remplacer cette ligne par Qed. *)
+Qed.
 
 
 Theorem add_1_l : forall  n : nat, 1 + n = S n.
@@ -121,7 +121,7 @@ Proof.
   intro.
   simpl.
   reflexivity.
-Admitted. (* Remplacer cette ligne par Qed. *)
+Qed.
 
 
 Theorem add_succ_l : forall n m : nat, S n + m = S (n + m).
@@ -131,7 +131,7 @@ Proof.
   simpl.
   reflexivity.
 
-Admitted. (* Remplacer cette ligne par Qed. *)
+Qed.
 
 
 (* N'oubliez pas discriminate pour réfuter une égalité. *)
@@ -140,7 +140,7 @@ Proof.
   unfold not.
   intro.
   discriminate.
-Admitted. (* Remplacer cette ligne par Qed. *)
+Qed.
 
 
 (*La tactique 'rewrite' permet de faire une substitution :
@@ -164,7 +164,7 @@ Proof.
   rewrite H.
   simpl.
   reflexivity.
-Admitted. (* Remplacer cette ligne par Qed. *)
+Qed.
 
 
 (*'rewrite' peut aussi être utilisée avec des théorèmes !*)
@@ -190,8 +190,13 @@ parvenir au but '2+2=4' *)
 Theorem exo_rewrite_theorems : (1 + 1) + ((0 + (0 + 1)) + 1) = 4.
 Proof.
   intros .
-  Check add_1_l (0  1).
-Admitted. (* Remplacer cette ligne par Qed. *)
+  Check add_1_l (1 + 1).
+  rewrite (add_1_l 1).
+  Check (add_1_l 0).
+  rewrite (add_1_l 1).
+  Check (add_0_l 2).
+  reflexivity.
+Qed.
 
 
 Theorem exemple_rewrite_thm_unif : forall n : nat, 0 + (1 + (1 + n)) = S (S n).
@@ -207,8 +212,10 @@ Qed.
 Theorem exo_rewrite_unif :
   forall n : nat, 0 + ((S 1) + S (1 + n))= S (S (S (S n))).
 Proof.
-  (* Remplir la preuve ici *)
-Admitted. (* Remplacer cette ligne par Qed. *)
+   intro.
+   simpl.
+  reflexivity. 
+Qed.
 
 
 Theorem double_eq_0_is_0 : forall n : nat, n + n = 0 -> n = 0.
@@ -236,14 +243,26 @@ Qed.
 
 Theorem npm_eq_0 : forall (n m : nat), n + m = 0 -> n = 0.
 Proof.
-  (* Remplir la preuve ici *)
-Admitted. (* Remplacer cette ligne par Qed. *)
+   intro n.
+  intro H.
+  intro H1.
+  destruct n as [| n'].
+  reflexivity.
+  exfalso.
+  discriminate.
+Qed.
 
 
 Theorem exo_destruct2 : forall n : nat, S (S (S n)) = 4 -> n = 1.
 Proof.
-  (* Remplir la preuve ici *)
-Admitted. (* Remplacer cette ligne par Qed. *)
+  intro n .
+  intro H .
+  simpl.
+  destruct n as [| n'].
+  - exfalso.
+  discriminate.
+  - destruct H.
+Qed.
 
 
 Theorem add_0_r : forall n : nat, n + 0 = n.
@@ -402,4 +421,3 @@ Theorem mul_comm : forall n m : nat, n * m = m * n.
 Proof.
   (* Remplir la preuve ici *)
 Admitted. (* Remplacer cette ligne par Qed. *)
-
