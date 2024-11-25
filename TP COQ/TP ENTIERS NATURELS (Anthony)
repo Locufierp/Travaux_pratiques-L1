@@ -1,0 +1,9 @@
+Theorem npm_eq_0 : forall (n m : nat), n + m = 0 -> n = 0.
+Proof.
+  intro n.
+  intro H.
+  intro H1.
+  destruct n as [| n'].
+  reflexivity.
+  exfalso.
+  discriminate.
